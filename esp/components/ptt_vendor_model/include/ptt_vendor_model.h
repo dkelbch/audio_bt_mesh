@@ -2,6 +2,7 @@
 #define         _PTT_VENDOR_MODEL_H
 
 #include <stdint.h>
+#include "ptt_proto.h"
 #include <stdbool.h>
 
 /* Fixed LEAD unicast address for initial bring-up */
@@ -15,9 +16,13 @@ extern "C" {
 #endif         // __cplusplus
 
 void ptt_vendor_model_init(bool is_lead);
+
 void ptt_send_ptt_down(uint8_t group_idx);
 void ptt_send_ptt_up(uint8_t group_idx);
 
+void ptt_send_ptt_status(uint16_t dst_addr, gt_aud_mesh_ptt_result_t res, uint8_t group_idx);
+
+void ptt_vendor_model_on_ptt_send_rx(uint16_t src_addr, const gt_aud_mesh_ptt_send_t *msg);
 #ifdef __cplusplus
  }
 #endif         // __cplusplus
