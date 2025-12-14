@@ -4,6 +4,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+/* Fixed LEAD unicast address for initial bring-up */
+#ifndef PTT_LEAD_UNICAST_ADDR
+#define PTT_LEAD_UNICAST_ADDR 0x0001
+#endif
+
 
 #ifdef __cplusplus
 extern "C" {

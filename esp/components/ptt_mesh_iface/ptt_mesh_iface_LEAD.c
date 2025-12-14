@@ -12,7 +12,10 @@ static void mesh_send_req(uint8_t flags)
 {
     (void)flags;
     const ptt_mesh_cfg_t *cfg = ptt_mesh_iface_cfg_get();
-    ESP_LOGI(TAG, "send PTT REQUEST (group=%u)", cfg->group_idx);
+
+    /* LEAD button press: could take a local fast-path in the future.
+       For now we still use the vendor model wrapper (self addressed). */
+    ESP_LOGI(TAG, "local PTT REQUEST (lead=0x%04x, group=%u)", cfg->lead_addr, cfg->group_idx);
     ptt_send_ptt_down(cfg->group_idx);
 }
 
@@ -20,7 +23,7 @@ static void mesh_send_rel(uint8_t flags)
 {
     (void)flags;
     const ptt_mesh_cfg_t *cfg = ptt_mesh_iface_cfg_get();
-    ESP_LOGI(TAG, "send PTT RELEASE (group=%u)", cfg->group_idx);
+    ESP_LOGI(TAG, "local PTT RELEASE (lead=0x%04x, group=%u)", cfg->lead_addr, cfg->group_idx);
     ptt_send_ptt_up(cfg->group_idx);
 }
 
