@@ -14,6 +14,15 @@
 
 static const char *TAG = "BOARD_BSP";
 
+static bsp_simple_cb_t s_cb_down = NULL;
+static bsp_simple_cb_t s_cb_up = NULL;
+
+void bsp_register_ptt_callbacks(bsp_simple_cb_t on_down, bsp_simple_cb_t on_up)
+{
+    s_cb_down = on_down;
+    s_cb_up = on_up;
+}
+
 static led_strip_t *s_led_strip = NULL;
 static button_handle_t s_btn_ptt = NULL;
 
@@ -126,13 +135,17 @@ static void bsp_event_task(void *arg)
                 case BSP_EVT_PTT_DOWN:
                     ESP_LOGI(TAG, "PTT DOWN");
                     bsp_led_process(E_LED_RGB_COLOR_GREEN, 1);
-                    // TODO: hier später Vendor-PTT-Start triggern
+                    if (s_cb_down) { s_cb_down(); }
+                    break;
+
                     break;
 
                 case BSP_EVT_PTT_UP:
                     ESP_LOGI(TAG, "PTT UP");
                     bsp_led_process(E_LED_RGB_COLOR_GREEN, 0);
-                    // TODO: hier später Vendor-PTT-Stop triggern
+                    if (s_cb_up) { s_cb_up(); }
+                    break;
+
                     break;
 
                 default:

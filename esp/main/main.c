@@ -1,19 +1,20 @@
-#include <stdint.h>  
-#include <stdbool.h> 
+#include <stdint.h>
+#include <stdbool.h>
 
 #include "app_config.h"
-
 #include "esp_log.h"
-
 #include "board_bsp.h"
 
-static const char *TAG = "MAIN";
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
-/* Vorwärtsdeklarationen */
+/* Forward declarations */
 void app_common_nvs_bt_init(void);
 void app_lead_init(void);
 void app_team_init(void);
-void bsp_init(void);
+void ptt_app_init(void);
+
+static const char *TAG = "MAIN";
 
 void app_main(void)
 {
@@ -32,5 +33,12 @@ void app_main(void)
     ESP_LOGE(TAG, "No valid role configured!");
 #endif
 
-    // TODO: Event-Loop, Button-Handling für PTT, Status-LEDs usw.
+    /* PTT Client FSM wiring */
+    ptt_app_init();
+
+    ESP_LOGI(TAG, "Init done");
+    /* All runtime work happens in tasks/callbacks */
+    while (true) {
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
 }

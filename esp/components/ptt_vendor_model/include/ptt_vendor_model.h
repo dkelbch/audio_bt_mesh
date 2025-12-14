@@ -1,6 +1,10 @@
 #ifndef        _PTT_VENDOR_MODEL_H
 #define         _PTT_VENDOR_MODEL_H
 
+#include <stdint.h>
+#include <stdbool.h>
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif         // __cplusplus

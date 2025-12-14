@@ -25,6 +25,15 @@ typedef enum {
 #define BSP_PTT_BUTTON GPIO_NUM_0     /* example: BOOT button */
 
 void bsp_led_process(uint8_t color, uint8_t onoff);
+
+typedef void (*bsp_simple_cb_t)(void);
+
+/**
+ * @brief Register callbacks for PTT button events (called from BSP event task).
+ * @note Call from app_main after bsp_init().
+ */
+void bsp_register_ptt_callbacks(bsp_simple_cb_t on_down, bsp_simple_cb_t on_up);
+
 void bsp_init(void);
 
 #ifdef __cplusplus
